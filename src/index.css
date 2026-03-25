@@ -1,0 +1,106 @@
+@import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-digital: "VT323", monospace;
+}
+
+body {
+  margin: 0;
+  overflow: hidden;
+  background-color: #050505;
+  color: #00FFFF;
+  font-family: var(--font-digital);
+  text-transform: uppercase;
+}
+
+/* Static Noise Overlay */
+.bg-noise {
+  position: fixed;
+  top: 0; left: 0; width: 100vw; height: 100vh;
+  pointer-events: none;
+  z-index: 50;
+  opacity: 0.08;
+  background: url('data:image/svg+xml;utf8,%3Csvg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"%3E%3Cfilter id="noiseFilter"%3E%3CfeTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="3" stitchTiles="stitch"/%3E%3C/filter%3E%3Crect width="100%25" height="100%25" filter="url(%23noiseFilter)"/%3E%3C/svg%3E');
+}
+
+/* Scanlines */
+.scanlines {
+  position: fixed;
+  top: 0; left: 0; width: 100vw; height: 100vh;
+  pointer-events: none;
+  z-index: 49;
+  background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0) 50%, rgba(0,0,0,0.25) 50%, rgba(0,0,0,0.25));
+  background-size: 100% 4px;
+}
+
+/* Screen Tear */
+.screen-tear {
+  animation: tear 4s infinite;
+}
+
+@keyframes tear {
+  0%, 95% { transform: translateX(0); }
+  96% { transform: translateX(-5px) skewX(5deg); filter: hue-rotate(90deg); }
+  97% { transform: translateX(5px) skewX(-5deg); filter: hue-rotate(-90deg); }
+  98% { transform: translateX(-2px) skewX(2deg); }
+  99% { transform: translateX(0); filter: hue-rotate(0); }
+}
+
+/* Glitch Text */
+.glitch-text {
+  position: relative;
+  display: inline-block;
+}
+.glitch-text::before, .glitch-text::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: #050505;
+}
+.glitch-text::before {
+  left: 2px;
+  text-shadow: -2px 0 #FF00FF;
+  clip: rect(24px, 550px, 90px, 0);
+  animation: glitch-anim-2 3s infinite linear alternate-reverse;
+}
+.glitch-text::after {
+  left: -2px;
+  text-shadow: -2px 0 #00FFFF;
+  clip: rect(85px, 550px, 140px, 0);
+  animation: glitch-anim 2.5s infinite linear alternate-reverse;
+}
+
+@keyframes glitch-anim {
+  0% { clip: rect(15px, 9999px, 44px, 0); transform: translate(0); }
+  20% { clip: rect(85px, 9999px, 11px, 0); transform: translate(-2px, 2px); }
+  40% { clip: rect(43px, 9999px, 98px, 0); transform: translate(2px, -2px); }
+  60% { clip: rect(10px, 9999px, 55px, 0); transform: translate(-2px, 2px); }
+  80% { clip: rect(77px, 9999px, 22px, 0); transform: translate(2px, -2px); }
+  100% { clip: rect(33px, 9999px, 88px, 0); transform: translate(0); }
+}
+@keyframes glitch-anim-2 {
+  0% { clip: rect(65px, 9999px, 100px, 0); transform: translate(0); }
+  20% { clip: rect(12px, 9999px, 74px, 0); transform: translate(2px, -2px); }
+  40% { clip: rect(79px, 9999px, 85px, 0); transform: translate(-2px, 2px); }
+  60% { clip: rect(25px, 9999px, 5px, 0); transform: translate(2px, -2px); }
+  80% { clip: rect(67px, 9999px, 61px, 0); transform: translate(-2px, 2px); }
+  100% { clip: rect(14px, 9999px, 79px, 0); transform: translate(0); }
+}
+
+/* Juice: Exaggerated Shake */
+.shake {
+  animation: shake 0.3s cubic-bezier(.36,.07,.19,.97) both;
+}
+@keyframes shake {
+  10%, 90% { transform: translate3d(-4px, 0, 0) skewX(2deg); }
+  20%, 80% { transform: translate3d(6px, 0, 0) skewX(-2deg); }
+  30%, 50%, 70% { transform: translate3d(-10px, 4px, 0) skewX(4deg); }
+  40%, 60% { transform: translate3d(10px, -4px, 0) skewX(-4deg); }
+}
+
+/* Custom Scrollbar for a raw look */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: #050505; }
+::-webkit-scrollbar-thumb { background: #FF00FF; }
